@@ -1,9 +1,13 @@
 package com.burakcanaksoy.atomiccountryaggregator.dto;
 
 import com.burakcanaksoy.atomiccountryaggregator.model.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CountryDetailsResponse {
     private Identity identity;
     private Geography geography;
