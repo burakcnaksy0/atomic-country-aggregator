@@ -25,7 +25,7 @@ public class CountryServiceImpl implements CountryService {
         String isoCode = soapClient.countryISOCode(request.getCountryName());
 
         if (isoCode == null || isoCode.length() != 2) {
-            throw new ISONotFoundException("Girilen ülke ismiyle eşleşen bir kayıt bulunamadı (ISO kodu alınamadı).");
+            throw new ISONotFoundException("No record was found matching the entered country name (ISO code could not be obtained).");
         }
 
         String capital = soapClient.capitalCity(isoCode);

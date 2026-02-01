@@ -20,6 +20,6 @@ public class CountryController {
     @PostMapping("/details")
     public ResponseEntity<ApiResponse<CountryDetailsResponse>> getDetails(@RequestBody CountryRequest request) {
         CountryDetailsResponse data = countryService.getCountryDetails(request);
-        return ResponseEntity.ok(ApiResponse.success("Ülke bilgileri başarıyla getirildi.", data));
+        return ResponseEntity.ok(ApiResponse.success("Country information was successfully retrieved.", data));
     }
 }
