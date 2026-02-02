@@ -1,11 +1,15 @@
 package com.burakcanaksoy.atomiccountryaggregator.model;
 
 import com.burakcanaksoy.atomiccountryaggregator.model.enums.Role;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,53 +17,41 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
+@Table("users")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column("name")
     private String name;
 
-    @Column(name = "surname")
+    @Column("surname")
     private String surname;
 
-    @Column(name = "username",unique = true)
+    @Column("username")
     private String username;
 
-    @Column(name = "email",unique = true)
+    @Column("email")
     private String email;
 
-    @Column(name = "password",nullable = false)
+    @Column("password")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "user_role", nullable = false)
+    @Column("user_role")
     private Role role;
 
-    @Column(name = "created_at")
+    @CreatedDate
+    @Column("created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @LastModifiedDate
+    @Column("updated_at")
     private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

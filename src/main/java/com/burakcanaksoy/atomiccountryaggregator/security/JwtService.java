@@ -82,7 +82,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey())  // ✅ Algorithm otomatik seçilir
+                .signWith(getSignInKey())
                 .compact();
     }
 
