@@ -1,4 +1,4 @@
-package com.burakcanaksoy.atomiccountryaggregator.dto;
+package com.burakcanaksoy.atomiccountryaggregator.response;
 
 import com.burakcanaksoy.atomiccountryaggregator.model.*;
 import lombok.AllArgsConstructor;

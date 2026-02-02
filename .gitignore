@@ -61,4 +61,3 @@ jaxws/
 
 # Ignore local environment files
 .env
-src/main/resources/application.properties

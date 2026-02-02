@@ -1,7 +1,7 @@
 package com.burakcanaksoy.atomiccountryaggregator.service.impl;
 
-import com.burakcanaksoy.atomiccountryaggregator.dto.CountryDetailsResponse;
-import com.burakcanaksoy.atomiccountryaggregator.dto.CountryRequest;
+import com.burakcanaksoy.atomiccountryaggregator.response.CountryDetailsResponse;
+import com.burakcanaksoy.atomiccountryaggregator.request.CountryRequest;
 import com.burakcanaksoy.atomiccountryaggregator.exception.ISONotFoundException;
 import com.burakcanaksoy.atomiccountryaggregator.mapper.CountryDetailsMapper;
 import com.burakcanaksoy.atomiccountryaggregator.service.CountryService;

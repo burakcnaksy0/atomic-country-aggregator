@@ -1,6 +1,6 @@
 package com.burakcanaksoy.atomiccountryaggregator.mapper;
 
-import com.burakcanaksoy.atomiccountryaggregator.dto.CountryDetailsResponse;
+import com.burakcanaksoy.atomiccountryaggregator.response.CountryDetailsResponse;
 import com.burakcanaksoy.atomiccountryaggregator.model.Culture;
 import com.burakcanaksoy.atomiccountryaggregator.model.Economy;
 import com.burakcanaksoy.atomiccountryaggregator.model.Geography;

@@ -1,8 +1,8 @@
 package com.burakcanaksoy.atomiccountryaggregator.controller;
 
-import com.burakcanaksoy.atomiccountryaggregator.dto.ApiResponse;
-import com.burakcanaksoy.atomiccountryaggregator.dto.CountryDetailsResponse;
-import com.burakcanaksoy.atomiccountryaggregator.dto.CountryRequest;
+import com.burakcanaksoy.atomiccountryaggregator.response.ApiResponse;
+import com.burakcanaksoy.atomiccountryaggregator.response.CountryDetailsResponse;
+import com.burakcanaksoy.atomiccountryaggregator.request.CountryRequest;
 import com.burakcanaksoy.atomiccountryaggregator.service.CountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

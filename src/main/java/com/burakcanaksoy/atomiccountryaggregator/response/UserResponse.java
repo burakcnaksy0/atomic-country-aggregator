@@ -1,4 +1,4 @@
-package com.burakcanaksoy.atomiccountryaggregator.dto;
+package com.burakcanaksoy.atomiccountryaggregator.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-    private String token;
+public class UserResponse {
+    private String name;
+    private String surname;
     private String username;
     private String email;
-    private String message;
 }

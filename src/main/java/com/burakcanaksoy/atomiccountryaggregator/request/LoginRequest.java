@@ -1,4 +1,4 @@
-package com.burakcanaksoy.atomiccountryaggregator.dto;
+package com.burakcanaksoy.atomiccountryaggregator.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

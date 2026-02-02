@@ -1,6 +1,6 @@
 package com.burakcanaksoy.atomiccountryaggregator.exception;
 
-import com.burakcanaksoy.atomiccountryaggregator.dto.ApiResponse;
+import com.burakcanaksoy.atomiccountryaggregator.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

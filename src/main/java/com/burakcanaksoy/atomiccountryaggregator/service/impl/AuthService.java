@@ -1,14 +1,16 @@
 package com.burakcanaksoy.atomiccountryaggregator.service.impl;
 
-import com.burakcanaksoy.atomiccountryaggregator.dto.AuthResponse;
-import com.burakcanaksoy.atomiccountryaggregator.dto.LoginRequest;
-import com.burakcanaksoy.atomiccountryaggregator.dto.RegisterRequest;
+import com.burakcanaksoy.atomiccountryaggregator.mapper.UserMapper;
+import com.burakcanaksoy.atomiccountryaggregator.response.AuthResponse;
+import com.burakcanaksoy.atomiccountryaggregator.request.LoginRequest;
+import com.burakcanaksoy.atomiccountryaggregator.request.RegisterRequest;
 import com.burakcanaksoy.atomiccountryaggregator.exception.InvalidCredentialsException;
 import com.burakcanaksoy.atomiccountryaggregator.model.User;
 import com.burakcanaksoy.atomiccountryaggregator.model.enums.Role;
+import com.burakcanaksoy.atomiccountryaggregator.repository.CustomUserRepository;
 import com.burakcanaksoy.atomiccountryaggregator.repository.UserRepository;
+import com.burakcanaksoy.atomiccountryaggregator.response.UserResponse;
 import com.burakcanaksoy.atomiccountryaggregator.security.JwtService;
-import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,22 +19,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final CustomUserRepository customUserRepository;
 
-    public AuthService(UserRepository userRepository,PasswordEncoder passwordEncoder,JwtService jwtService,AuthenticationManager authenticationManager){
+    public AuthService(UserRepository userRepository,PasswordEncoder passwordEncoder,
+                       JwtService jwtService,AuthenticationManager authenticationManager,
+                       CustomUserRepository customUserRepository){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService=jwtService;
         this.authenticationManager = authenticationManager;
+        this.customUserRepository = customUserRepository;
     }
 
-
-    public void register(@Valid RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
         if (userRepository.existsByUsername(registerRequest.getUsername())){
             throw new RuntimeException("This username already exists.");
         }
@@ -58,7 +65,7 @@ public class AuthService {
                 .build();
     }
 
-    public AuthResponse login(@Valid LoginRequest loginRequest) {
+    public AuthResponse login(LoginRequest loginRequest) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -82,5 +89,32 @@ public class AuthService {
                 .email(user.getEmail())
                 .message("Login successfully")
                 .build();
+    }
+
+    public void registerWithSql(RegisterRequest registerRequest){
+        registerRequest.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+
+        int result = customUserRepository.insertUser(registerRequest);
+
+        if (result == 0){
+            throw new RuntimeException("User not created");
+        }
+
+        AuthResponse.builder()
+                .token(null)
+                .username(registerRequest.getUsername())
+                .email(registerRequest.getEmail())
+                .message("Registered successfully")
+                .build();
+    }
+
+    public int countUser() {
+        return customUserRepository.countUser();
+    }
+
+    public List<UserResponse> getAllUsers() {
+        List<User> userList = customUserRepository.getAllUsers();
+        return UserMapper.toListResponse(userList);
+
     }
 }
