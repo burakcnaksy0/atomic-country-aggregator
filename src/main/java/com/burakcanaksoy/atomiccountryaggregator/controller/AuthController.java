@@ -17,36 +17,36 @@ import java.util.List;
 public class AuthController {
     private final AuthService authService;
 
-    public AuthController(AuthService authService){
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Void>> register(@Valid @RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<ApiResponse<Void>> register(@Valid @RequestBody RegisterRequest registerRequest) {
         authService.register(registerRequest);
         return ResponseEntity.ok(ApiResponse.success("Record created successfully"));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest loginRequest){
-        return ResponseEntity.ok(ApiResponse.success("Login",authService.login(loginRequest)));
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(ApiResponse.success("Login", authService.login(loginRequest)));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse<Void>> create(@Valid @RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<ApiResponse<Void>> create(@Valid @RequestBody RegisterRequest registerRequest) {
         authService.registerWithSql(registerRequest);
         return ResponseEntity.ok(ApiResponse.success("Record created"));
     }
 
     @GetMapping("/user/count")
-    public ResponseEntity<ApiResponse<Integer>> countUser(){
+    public ResponseEntity<ApiResponse<Integer>> countUser() {
         int countUser = authService.countUser();
-        return ResponseEntity.ok(ApiResponse.success("User counted",countUser));
+        return ResponseEntity.ok(ApiResponse.success("User counted", countUser));
     }
 
     @GetMapping("/users")
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers(){
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
         List<UserResponse> userList = authService.getAllUsers();
-        return ResponseEntity.ok(ApiResponse.success("User list",userList));
+        return ResponseEntity.ok(ApiResponse.success("User list", userList));
     }
 }

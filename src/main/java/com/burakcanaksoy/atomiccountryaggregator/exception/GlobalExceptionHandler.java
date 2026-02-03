@@ -3,6 +3,7 @@ package com.burakcanaksoy.atomiccountryaggregator.exception;
 import com.burakcanaksoy.atomiccountryaggregator.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,14 +35,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<String>> handleISONotFoundException(ISONotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(ApiResponse.error(ex.getMessage(),"null"));
+                .body(ApiResponse.error(ex.getMessage(), "null"));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> handleGenericException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error(ex.getMessage() ,"null"));
+                .body(ApiResponse.error(ex.getMessage(), "null"));
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler {
             InvalidCredentialsException ex) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(ApiResponse.error("Error",ex.getMessage()));
+                .body(ApiResponse.error("Error", ex.getMessage()));
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
@@ -57,6 +58,14 @@ public class GlobalExceptionHandler {
             UsernameNotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(ApiResponse.error("User not found",ex.getMessage()));
+                .body(ApiResponse.error("User not found", ex.getMessage()));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse<String>> handleAccessDeniedException(
+            AccessDeniedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.error("Access Denied: You do not have permission to access this resource.", "null"));
     }
 }

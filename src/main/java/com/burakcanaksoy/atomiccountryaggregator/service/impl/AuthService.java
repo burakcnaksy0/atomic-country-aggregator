@@ -7,7 +7,7 @@ import com.burakcanaksoy.atomiccountryaggregator.request.RegisterRequest;
 import com.burakcanaksoy.atomiccountryaggregator.exception.InvalidCredentialsException;
 import com.burakcanaksoy.atomiccountryaggregator.model.User;
 import com.burakcanaksoy.atomiccountryaggregator.model.enums.Role;
-import com.burakcanaksoy.atomiccountryaggregator.repository.CustomUserRepository;
+import com.burakcanaksoy.atomiccountryaggregator.repository.custom.CustomUserRepository;
 import com.burakcanaksoy.atomiccountryaggregator.repository.UserRepository;
 import com.burakcanaksoy.atomiccountryaggregator.response.UserResponse;
 import com.burakcanaksoy.atomiccountryaggregator.security.JwtService;
@@ -29,21 +29,21 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final CustomUserRepository customUserRepository;
 
-    public AuthService(UserRepository userRepository,PasswordEncoder passwordEncoder,
-                       JwtService jwtService,AuthenticationManager authenticationManager,
-                       CustomUserRepository customUserRepository){
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+            JwtService jwtService, AuthenticationManager authenticationManager,
+            CustomUserRepository customUserRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService=jwtService;
+        this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.customUserRepository = customUserRepository;
     }
 
     public void register(RegisterRequest registerRequest) {
-        if (userRepository.existsByUsername(registerRequest.getUsername())){
+        if (userRepository.existsByUsername(registerRequest.getUsername())) {
             throw new RuntimeException("This username already exists.");
         }
-        if (userRepository.existsByEmail(registerRequest.getEmail())){
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
             throw new RuntimeException("This email already exists");
         }
         var user = User.builder()
@@ -70,16 +70,15 @@ public class AuthService {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
+                            loginRequest.getPassword()));
         } catch (BadCredentialsException e) {
             throw new InvalidCredentialsException("Username or password is incorrect");
         } catch (AuthenticationException e) {
             throw new InvalidCredentialsException("Authentication failed: " + e.getMessage());
         }
 
-        var user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        var user = userRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         var jwtToken = jwtService.generateToken(user);
 
@@ -91,12 +90,12 @@ public class AuthService {
                 .build();
     }
 
-    public void registerWithSql(RegisterRequest registerRequest){
+    public void registerWithSql(RegisterRequest registerRequest) {
         registerRequest.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
         int result = customUserRepository.insertUser(registerRequest);
 
-        if (result == 0){
+        if (result == 0) {
             throw new RuntimeException("User not created");
         }
 

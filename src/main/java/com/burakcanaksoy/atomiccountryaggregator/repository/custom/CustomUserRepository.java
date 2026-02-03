@@ -1,4 +1,4 @@
-package com.burakcanaksoy.atomiccountryaggregator.repository;
+package com.burakcanaksoy.atomiccountryaggregator.repository.custom;
 
 import com.burakcanaksoy.atomiccountryaggregator.request.RegisterRequest;
 import com.burakcanaksoy.atomiccountryaggregator.model.User;
@@ -12,11 +12,11 @@ import java.util.*;
 public class CustomUserRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public CustomUserRepository(JdbcTemplate jdbcTemplate){
+    public CustomUserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int insertUser(RegisterRequest registerRequest){
+    public int insertUser(RegisterRequest registerRequest) {
         String sql = "INSERT INTO users (name,surname,username,email,password,user_role,created_at) VALUES(?,?,?,?,?,?,?)";
         return jdbcTemplate.update(sql,
                 registerRequest.getName(),
@@ -25,17 +25,16 @@ public class CustomUserRepository {
                 registerRequest.getEmail(),
                 registerRequest.getPassword(),
                 "ROLE_USER",
-                LocalDateTime.now()
-        );
+                LocalDateTime.now());
     }
 
-    public int countUser(){
+    public int countUser() {
         String sql = "SELECT COUNT(*) FROM users";
-        return jdbcTemplate.queryForObject(sql,Integer.class);
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         String sql = "SELECT * FROM users";
-        return jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(User.class));
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
     }
 }

@@ -9,9 +9,10 @@ GO
 USE master;
 GO
 
-IF NOT EXISTS (SELECT name FROM sys.server_principals WHERE name = 'admin')
+
+IF NOT EXISTS (SELECT name FROM sys.server_principals WHERE name = 'burak')
 BEGIN
-    CREATE LOGIN admin WITH PASSWORD = 'Admin123!@#';
+    CREATE LOGIN burak WITH PASSWORD = 'Bur@kCan_2024';
 END
 GO
 
@@ -19,9 +20,9 @@ GO
 USE countryDb;
 GO
 
-IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name = 'admin')
+IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name = 'burak')
 BEGIN
-    CREATE USER admin FOR LOGIN admin;
-    ALTER ROLE db_owner ADD MEMBER admin;
+    CREATE USER burak FOR LOGIN burak;
+    ALTER ROLE db_owner ADD MEMBER burak;
 END
 GO
