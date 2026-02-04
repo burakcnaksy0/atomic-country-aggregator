@@ -5,6 +5,7 @@ import com.burakcanaksoy.atomiccountryaggregator.repository.CustomRequestLogsRep
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +33,7 @@ public class CustomRequestLogsRepositoryImpl implements CustomRequestLogsReposit
     @Override
     public List<RequestLogs> findByUsername(String username) {
         String sql = "SELECT * FROM request_logs WHERE username = ?";
-        return jdbcTemplate.query(sql, rowMapper, username);
+        return jdbcTemplate.query(sql,rowMapper,username);
     }
 
     @Override

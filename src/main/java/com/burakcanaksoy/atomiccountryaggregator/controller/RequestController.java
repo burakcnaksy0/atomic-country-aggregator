@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/request")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class RequestController {
     private final RequestService requestService;
 
@@ -24,13 +24,11 @@ public class RequestController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<List<RequestLogs>>> getAllRequests() {
         return ResponseEntity.ok(ApiResponse.success("All requests are brought.", requestService.getAllRequests()));
     }
 
     @GetMapping("/filter/username")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<List<RequestLogs>>> searchLogWithUsername(
             @RequestParam(required = false) String username) {
         return ResponseEntity.ok(
@@ -38,7 +36,6 @@ public class RequestController {
     }
 
     @GetMapping("/filter/date-range")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<List<RequestLogs>>> searchLogWithTimestamp(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {

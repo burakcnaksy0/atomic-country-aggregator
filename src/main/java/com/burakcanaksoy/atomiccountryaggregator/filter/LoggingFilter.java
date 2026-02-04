@@ -79,12 +79,13 @@ public class LoggingFilter extends OncePerRequestFilter {
         }
     }
 
+    // Loglarda yer alan password bilgisini maskelemek
     private String maskSensitiveData(String content) {
         try {
             Map<String, Object> map = objectMapper.readValue(content, new TypeReference<Map<String, Object>>() {
             });
             if (map.containsKey("password")) {
-                map.put("password", "*****");
+                map.put("password", "********");
                 return objectMapper.writeValueAsString(map);
             }
             return content;
